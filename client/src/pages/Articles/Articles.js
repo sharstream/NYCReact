@@ -10,7 +10,7 @@ import { Input, FormBtn } from "../../components/Form";
 class Articles extends Component {
   state = {
     articles: [],
-    topic: "",
+    search: "",
     startYear: "",
     endYear: "",
     date: "",
@@ -23,15 +23,27 @@ class Articles extends Component {
 
   handleFormSubmit = e => {
     e.preventDefault();
-    API.getArticles(this.state.topic)
+    API.getArticles(this.state.search)
       .then(res => this.setState({ articles: res.data}))
       .catch(err => console.log(err));
+  };
+
+  handleInputChange = event => {
+    const { target: { name, value } } = event;
+    this.setState({
+      [name]: value
+    });
   };
 
   loadSavedArticles = () => {
     API.getArticles()
       .then(res =>
-        this.setState({ articles: res.data, title: "", date: "", url:""})
+        this.setState({
+          articles: res.data,
+          search: "",
+          date: "",
+          url: ""
+        })
       )
       .catch(err => console.log(err));
   };
@@ -45,6 +57,42 @@ class Articles extends Component {
               <Jumbotron>
                 <h1> What Article should I search? </h1>
               </Jumbotron>
+              <form class="form-search">
+                <label for="title">Search Term (required)</label>
+                <Input
+                  value={this.state.search}
+                  onChange={this.handleInputChange}
+                  name="title"
+                  placeholder="Search by title (required)"
+                required = "true" />
+                <label for="size">Number of Records to Display</label>
+                <select class = "span1">
+                  <option>1</option>
+                  <option>5</option>
+                  <option>10</option>
+                </select>
+                <br/>
+                <label for="startYear">Start Year (optional)</label>
+                <Input
+                  value={this.state.startYear}
+                  onChange={this.handleInputChange}
+                  name="startYear"
+                  placeholder="Start Year is (optional)"
+                />
+                <label for="endYear">End Year (optional)</label>
+                <Input
+                  value={this.state.endYear}
+                  onChange={this.handleInputChange}
+                  name="endYear"
+                  placeholder="End Year is (optional)"
+                />
+                <FormBtn
+                  disable={!(this.state.title)}
+                  onClick={this.handleFormSubmit}
+                >
+                  Search
+                </FormBtn>
+              </form>
             </Col>
           </Row>
         </Container>
