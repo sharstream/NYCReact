@@ -2,8 +2,8 @@ import axios from "axios";
 
 export default {
   // gets all articles
-  getArticles: function() {
-    return axios.get("/api/articles");
+  getArticles: function(query) {
+    return axios.get("/api/articles", {params: {q: query} });
   },
   // gets the article with given id
   getArticle: function(id) {
@@ -17,4 +17,4 @@ export default {
   saveArticle: function(articleData) {
     return axios.post("/api/articles", articleData);
   }
-}
+};

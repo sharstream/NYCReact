@@ -22,12 +22,13 @@
   "bugs": {
     "url": "https://github.com/sharstream/NYCReact/issues"
   },
-  "homepage": "https://github.com/sharstream/NYCReact#readme",
+  "homepage": "https://sharstream.github.io/NYTReact/",
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "concurrently": "^3.6.0",
     "express": "^4.16.3",
+    "gh-pages": "^1.2.0",
     "if-env": "^1.0.4",
     "mongoose": "^5.1.7",
     "nodemon": "^1.17.5"

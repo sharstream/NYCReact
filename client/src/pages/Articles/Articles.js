@@ -23,6 +23,7 @@ class Articles extends Component {
 
   handleFormSubmit = e => {
     e.preventDefault();
+    console.log('onClick loaded');
     API.getArticles(this.state.search)
       .then(res => this.setState({ articles: res.data}))
       .catch(err => console.log(err));
@@ -48,11 +49,25 @@ class Articles extends Component {
       .catch(err => console.log(err));
   };
 
+  handleSaveSubmit = e => {
+    e.preventDefault();
+    if (this.state.search) {
+      API.saveArticle({
+        title: this.state.search,
+        date: Date.now,
+        url: this.state.url
+      })
+        .then(res => this.loadSavedArticles())
+        .cathc(err => console.log(err));
+    }
+  };
+
   render() {
     return (
       <div>
         <Container fluid>
           <Row>
+            <div class="col" />
             <Col size="md-6">
               <Jumbotron>
                 <h1> What Article should I search? </h1>
@@ -62,9 +77,9 @@ class Articles extends Component {
                 <Input
                   value={this.state.search}
                   onChange={this.handleInputChange}
-                  name="title"
+                  name="search"
                   placeholder="Search by title (required)"
-                required = "true" />
+                />
                 <label for="size">Number of Records to Display</label>
                 <select class = "span1">
                   <option>1</option>
@@ -92,8 +107,38 @@ class Articles extends Component {
                 >
                   Search
                 </FormBtn>
+                <button type="button" class="btn btn-success" style={{ margin: "center", marginBottom: 10, marginLeft: 5 }}>
+                  Clear
+                  <i className="icon-search"></i>
+                </button>
               </form>
             </Col>
+            <div class="col" />
+          </Row>
+          <Row>
+            <div class="col" />
+            <Col size="md-6">
+                <h1 className="text-center">Top Articles</h1>
+                {!this.state.articles.length ? (
+                  <h3 className="text-center">No Articles to Display</h3>
+                ) : (
+                  <List>
+                    {this.state.articles.map(article => {
+                      return (
+                        <ListItem
+                          key={article.title}
+                          title={article.title}
+                          date={article.date}
+                          href={article.url}
+                        >
+                          <SaveBtn onClick={() => this.handleSaveSubmit} />
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                )}
+            </Col>
+            <div class="col" />
           </Row>
         </Container>
       </div>
