@@ -72,71 +72,82 @@ class Articles extends Component {
               <Jumbotron>
                 <h1> What Article should I search? </h1>
               </Jumbotron>
-              <form class="form-search">
-                <label for="title">Search Term (required)</label>
-                <Input
-                  value={this.state.search}
-                  onChange={this.handleInputChange}
-                  name="search"
-                  placeholder="Search by title (required)"
-                />
-                <label for="size">Number of Records to Display</label>
-                <select class = "span1">
-                  <option>1</option>
-                  <option>5</option>
-                  <option>10</option>
-                </select>
-                <br/>
-                <label for="startYear">Start Year (optional)</label>
-                <Input
-                  value={this.state.startYear}
-                  onChange={this.handleInputChange}
-                  name="startYear"
-                  placeholder="Start Year is (optional)"
-                />
-                <label for="endYear">End Year (optional)</label>
-                <Input
-                  value={this.state.endYear}
-                  onChange={this.handleInputChange}
-                  name="endYear"
-                  placeholder="End Year is (optional)"
-                />
-                <FormBtn
-                  disable={!(this.state.title)}
-                  onClick={this.handleFormSubmit}
-                >
-                  Search
-                </FormBtn>
-                <button type="button" class="btn btn-success" style={{ margin: "center", marginBottom: 10, marginLeft: 5 }}>
-                  Clear
-                  <i className="icon-search"></i>
-                </button>
-              </form>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title"> Search NYT article </h3>
+                </div>
+                <div class="panel-body">
+                  <form class="form-search">
+                    <label for="title">Search Term (required)</label>
+                    <Input
+                      value={this.state.search}
+                      onChange={this.handleInputChange}
+                      name="search"
+                      placeholder="Search by title (required)"
+                    />
+                    <label for="size">Number of Records to Display</label>
+                    <select class = "span1">
+                      <option>1</option>
+                      <option>5</option>
+                      <option>10</option>
+                    </select>
+                    <br/>
+                    <label for="startYear">Start Year (optional)</label>
+                    <Input
+                      value={this.state.startYear}
+                      onChange={this.handleInputChange}
+                      name="startYear"
+                      placeholder="Start Year is (optional)"
+                    />
+                    <label for="endYear">End Year (optional)</label>
+                    <Input
+                      value={this.state.endYear}
+                      onChange={this.handleInputChange}
+                      name="endYear"
+                      placeholder="End Year is (optional)"
+                    />
+                    <FormBtn
+                      disable={!(this.state.title)}
+                      onClick={this.handleFormSubmit}
+                    >
+                      Search
+                    </FormBtn>
+                    <button type="button" class="btn btn-success" style={{ margin: "center", marginBottom: 10, marginLeft: 5 }}>
+                      Clear
+                      <i className="icon-search"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
             </Col>
             <div class="col" />
           </Row>
           <Row>
             <div class="col" />
             <Col size="md-6">
-                <h1 className="text-center">Top Articles</h1>
-                {!this.state.articles.length ? (
-                  <h3 className="text-center">No Articles to Display</h3>
-                ) : (
-                  <List>
-                    {this.state.articles.map(article => {
-                      return (
-                        <ListItem
-                          key={article.title}
-                          title={article.title}
-                          date={article.date}
-                          href={article.url}
-                        >
-                          <SaveBtn onClick={() => this.handleSaveSubmit} />
-                        </ListItem>
-                      );
-                    })}
-                  </List>
-                )}
+              <div class="panel panel-default">
+                <div class="panel-heading">Top Articles</div>
+                <div class="panel-body">
+                  {!this.state.articles.length ? (
+                    <h3 className="text-center">No Articles to Display</h3>
+                  ) : (
+                    <List>
+                      {this.state.articles.map(article => {
+                        return (
+                          <ListItem
+                            key={article.title}
+                            title={article.title}
+                            date={article.date}
+                            href={article.url}
+                          >
+                            <SaveBtn onClick={() => this.handleSaveSubmit} />
+                          </ListItem>
+                        );
+                      })}
+                    </List>
+                  )}
+                </div>
+              </div>
             </Col>
             <div class="col" />
           </Row>
