@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 import SaveBtn from "../../components/SaveBtn";
-import DeleteBtn from "../../components/DeleteBtn";
+// import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
@@ -14,6 +14,7 @@ class Articles extends Component {
     startYear: "",
     endYear: "",
     date: "",
+    amount: 0,
     url: ""
   };
 
@@ -24,8 +25,15 @@ class Articles extends Component {
   handleFormSubmit = e => {
     e.preventDefault();
     console.log('onClick loaded');
-    API.getArticles(this.state.search)
-      .then(res => this.setState({ articles: res.data}))
+    console.log('submit search: ' + this.state.search);
+    console.log('submit startYear: ' + this.state.startYear);
+    console.log('submit endYear: ' + this.state.endYear);
+
+    API.getNYTarticles(this.state.search, this.state.startYear, this.state.endYear)
+      .then(res => {
+        this.setState({ articles: res.data.response.docs});
+        console.log("articles from react: " + this.state.articles);
+      })
       .catch(err => console.log(err));
   };
 
@@ -67,39 +75,39 @@ class Articles extends Component {
       <div>
         <Container fluid>
           <Row>
-            <div class="col" />
+            <div className="col" />
             <Col size="md-6">
               <Jumbotron>
                 <h1> What Article should I search? </h1>
               </Jumbotron>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title"> Search NYT article </h3>
+              <div className="panel panel-default">
+                <div className="panel-heading">
+                  <h3 className="panel-title"> Search NYT article </h3>
                 </div>
-                <div class="panel-body">
-                  <form class="form-search">
-                    <label for="title">Search Term (required)</label>
+                <div className="panel-body">
+                  <form className="form-search">
+                    <label htmlFor="title">Search Term (required)</label>
                     <Input
                       value={this.state.search}
                       onChange={this.handleInputChange}
                       name="search"
                       placeholder="Search by title (required)"
                     />
-                    <label for="size">Number of Records to Display</label>
-                    <select class = "span1">
+                    <label htmlFor="size">Number of Records to Display</label>
+                    <select className = "span1">
                       <option>1</option>
                       <option>5</option>
                       <option>10</option>
                     </select>
                     <br/>
-                    <label for="startYear">Start Year (optional)</label>
+                    <label htmlFor="startYear">Start Year (optional)</label>
                     <Input
                       value={this.state.startYear}
                       onChange={this.handleInputChange}
                       name="startYear"
                       placeholder="Start Year is (optional)"
                     />
-                    <label for="endYear">End Year (optional)</label>
+                    <label htmlFor="endYear">End Year (optional)</label>
                     <Input
                       value={this.state.endYear}
                       onChange={this.handleInputChange}
@@ -112,7 +120,7 @@ class Articles extends Component {
                     >
                       Search
                     </FormBtn>
-                    <button type="button" class="btn btn-success" style={{ margin: "center", marginBottom: 10, marginLeft: 5 }}>
+                    <button type="button" className="btn btn-success" style={{ margin: "center", marginBottom: 10, marginLeft: 5 }}>
                       Clear
                       <i className="icon-search"></i>
                     </button>
@@ -120,14 +128,14 @@ class Articles extends Component {
                 </div>
               </div>
             </Col>
-            <div class="col" />
+            <div className="col" />
           </Row>
           <Row>
-            <div class="col" />
+            <div className="col" />
             <Col size="md-6">
-              <div class="panel panel-default">
-                <div class="panel-heading">Top Articles</div>
-                <div class="panel-body">
+              <div className="panel panel-default">
+                <div className="panel-heading">Top Articles</div>
+                <div className="panel-body">
                   {!this.state.articles.length ? (
                     <h3 className="text-center">No Articles to Display</h3>
                   ) : (
@@ -135,10 +143,10 @@ class Articles extends Component {
                       {this.state.articles.map(article => {
                         return (
                           <ListItem
-                            key={article.title}
-                            title={article.title}
-                            date={article.date}
-                            href={article.url}
+                            key={article.abstract}
+                            title={article.abstract}
+                            date={article.pub_date}
+                            href={article.web_url}
                           >
                             <SaveBtn onClick={() => this.handleSaveSubmit} />
                           </ListItem>
@@ -149,7 +157,7 @@ class Articles extends Component {
                 </div>
               </div>
             </Col>
-            <div class="col" />
+            <div className="col" />
           </Row>
         </Container>
       </div>

@@ -6,6 +6,7 @@ const authKey = "ad4988018f54406eb8c6e276f88f074e";
 var queryURLBase = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" + authKey;
 
 router.get("/articles", (req, res) => {
+  console.log('response: ' + req.body);
   axios
     .get(queryURLBase, { params: req.query })
     .then(({ data: { results } }) =>  res.json(results))
